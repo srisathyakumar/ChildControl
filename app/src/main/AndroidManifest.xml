@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="ChildControl"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ChildControl">
+
+        <!-- 🔹 LAUNCHER ACTIVITY -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".child.EnterPairCodeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".parent.GeneratePairCodeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+
+        <!-- 🔹 LOGIN -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <!-- 🔹 ROLE REDIRECT -->
+        <activity
+            android:name=".PostLoginRedirectActivity"
+            android:exported="false" />
+
+        <!-- 🔹 PARENT DASHBOARD -->
+        <activity
+            android:name=".parent.ParentDashboardActivity"
+            android:exported="false" />
+
+        <!-- 🔹 CHILD DASHBOARD -->
+        <activity
+            android:name=".child.ChildDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".parent.PairedChildrenActivity"
+            android:exported="false" />
+
+        <activity android:name=".child.UsageStatsActivity"/>
+        <activity android:name=".child.UsagePermissionActivity"/>
+
+        <activity
+            android:name=".parent.SetScreenLimitActivity"
+            android:exported="false"/>
+
+        <activity android:name=".parent.ParentUsageActivity"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+    </application>
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+
+</manifest>
