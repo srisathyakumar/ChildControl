@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="preloaded_fonts" translatable="false">
-        <item>@font/</item>
-        <item>@font/bakbak_one</item>
-        <item>@font/baloo_bhaina</item>
-        <item>@font/krona_one</item>
-        <item>@font/work_sans_semibold</item>
-    </array>
-</resources>
+<resources />

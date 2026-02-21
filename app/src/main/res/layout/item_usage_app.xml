@@ -7,14 +7,12 @@
     android:padding="12dp"
     android:gravity="center_vertical">
 
-    <!-- App Icon -->
     <ImageView
         android:id="@+id/imgAppIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="12dp"/>
 
-    <!-- App Name + Time -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,12 +27,11 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txtTime"
-            android:textColor="#BBBBBB"
+            android:id="@+id/txtUsageTime"
+            android:textColor="#CCCCCC"
             android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
 </LinearLayout>

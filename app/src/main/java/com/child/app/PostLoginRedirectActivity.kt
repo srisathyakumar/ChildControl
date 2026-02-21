@@ -18,6 +18,13 @@ class PostLoginRedirectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_login_redirect)
 
+        // ✅ STEP 5 FIX — Prevent redirect if opened internally
+        val fromInsideApp = intent.getBooleanExtra("internalNav", false)
+        if (fromInsideApp) {
+            finish()
+            return
+        }
+
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 

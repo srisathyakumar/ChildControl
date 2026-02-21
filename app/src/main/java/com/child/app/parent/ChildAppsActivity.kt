@@ -13,9 +13,13 @@ class ChildAppsActivity : AppCompatActivity() {
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: AppsAdapter
-    private val appsList = mutableListOf<Pair<String, Long>>() // package + time
 
-    private val firestore = FirebaseFirestore.getInstance()
+    // packageName + timeUsed
+    private val appsList =
+        mutableListOf<Pair<String, Long>>()
+
+    private val firestore =
+        FirebaseFirestore.getInstance()
 
     private lateinit var childId: String
 
@@ -23,20 +27,39 @@ class ChildAppsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_child_apps)
 
-        childId = intent.getStringExtra("childUid") ?: return
+        // ✅ RECEIVE CORRECT KEY
+        childId =
+            intent.getStringExtra("childId") ?: ""
 
-        recycler = findViewById(R.id.recyclerApps)
-
-        recycler.layoutManager = LinearLayoutManager(this)
-        adapter = AppsAdapter(appsList) { packageName ->
-            openSetLimit(packageName)
+        // ✅ Safety check
+        if (childId.isEmpty()) {
+            Toast.makeText(
+                this,
+                "Child ID missing",
+                Toast.LENGTH_LONG
+            ).show()
+            finish()
+            return
         }
+
+        recycler =
+            findViewById(R.id.recyclerApps)
+
+        recycler.layoutManager =
+            LinearLayoutManager(this)
+
+        adapter =
+            AppsAdapter(appsList) { packageName ->
+
+                openSetLimit(packageName)
+            }
 
         recycler.adapter = adapter
 
         loadApps()
     }
 
+    // 🔥 Load usage apps from Firebase
     private fun loadApps() {
 
         firestore.collection("usage")
@@ -49,8 +72,14 @@ class ChildAppsActivity : AppCompatActivity() {
 
                 for (doc in result) {
 
-                    val pkg = doc.getString("appPackage") ?: continue
-                    val time = doc.getLong("timeUsed") ?: 0
+                    val pkg =
+                        doc.getString("appPackage") ?: continue
+
+                    val time =
+                        doc.getLong("timeUsed") ?: 0
+
+                    // ✅ FILTER SYSTEM APPS
+                    if (isSystemApp(pkg)) continue
 
                     appsList.add(Pair(pkg, time))
                 }
@@ -67,7 +96,23 @@ class ChildAppsActivity : AppCompatActivity() {
             }
     }
 
-    private fun openSetLimit(packageName: String) {
+    private fun isSystemApp(packageName: String): Boolean {
+
+        return packageName.contains("launcher") ||
+                packageName.contains("systemui") ||
+                packageName.contains("settings") ||
+                packageName.contains("telecom") ||
+                packageName.contains("permissioncontroller") ||
+                packageName.contains("packageinstaller") ||
+                packageName.startsWith("com.android.system") ||
+                packageName.startsWith("android") ||
+                packageName == "com.child.app" // hide own app
+    }
+
+    // 🔒 Open limit screen
+    private fun openSetLimit(
+        packageName: String
+    ) {
 
         val intent = Intent(
             this,

@@ -4,21 +4,23 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.child.app.R
-import java.util.*
 
 class UsageStatsActivity : AppCompatActivity() {
 
-    private lateinit var listView: ListView
+    private lateinit var recycler: RecyclerView
+    private val usageList =
+        mutableListOf<Triple<String, String, Long>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usage_stats)
 
-        listView = findViewById(R.id.listUsage)
+        recycler = findViewById(R.id.recyclerUsage)
+        recycler.layoutManager = LinearLayoutManager(this)
 
         if (!hasPermission()) {
             startActivity(
@@ -47,22 +49,23 @@ class UsageStatsActivity : AppCompatActivity() {
 
     private fun loadUsageStats() {
 
-        val usageStatsManager =
+        val usm =
             getSystemService(Context.USAGE_STATS_SERVICE)
                     as UsageStatsManager
 
         val end = System.currentTimeMillis()
-        val start = end - 1000 * 60 * 60 * 24
+        val start = end - (24 * 60 * 60 * 1000)
 
-        val stats = usageStatsManager.queryUsageStats(
-            UsageStatsManager.INTERVAL_DAILY,
-            start,
-            end
-        )
-
-        val usageList = ArrayList<String>()
+        val stats =
+            usm.queryUsageStats(
+                UsageStatsManager.INTERVAL_DAILY,
+                start,
+                end
+            )
 
         val pm = packageManager
+
+        usageList.clear()
 
         for (usage in stats) {
 
@@ -77,12 +80,14 @@ class UsageStatsActivity : AppCompatActivity() {
                         )
 
                     val appName =
-                        pm.getApplicationLabel(appInfo)
+                        pm.getApplicationLabel(appInfo).toString()
 
                     usageList.add(
-                        "$appName : ${
-                            usage.totalTimeInForeground / 1000
-                        } sec"
+                        Triple(
+                            usage.packageName,
+                            appName,
+                            usage.totalTimeInForeground
+                        )
                     )
 
                 } catch (e: Exception) {
@@ -91,13 +96,8 @@ class UsageStatsActivity : AppCompatActivity() {
             }
         }
 
-
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            usageList
-        )
-
-        listView.adapter = adapter
+        recycler.adapter =
+            UsageAppsAdapter(usageList, pm)
     }
+
 }

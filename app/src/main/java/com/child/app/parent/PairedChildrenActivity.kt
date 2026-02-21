@@ -29,17 +29,7 @@ class PairedChildrenActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this)
 
-        adapter =
-            PairedChildrenAdapter(childList) { childId ->
-
-                val intent = Intent(
-                    this,
-                    SetScreenLimitActivity::class.java
-                )
-
-                intent.putExtra("childId", childId)
-                startActivity(intent)
-            }
+        adapter = PairedChildrenAdapter(childList)
         recyclerView.adapter = adapter
 
         loadPairedChildren()
@@ -48,12 +38,6 @@ class PairedChildrenActivity : AppCompatActivity() {
     private fun loadPairedChildren() {
 
         val parentId = auth.currentUser?.uid ?: return
-
-        Toast.makeText(
-            this,
-            "Parent UID: $parentId",
-            Toast.LENGTH_LONG
-        ).show()
 
         firestore.collection("pairings")
             .get()

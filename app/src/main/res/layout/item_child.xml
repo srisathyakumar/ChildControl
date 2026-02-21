@@ -8,10 +8,9 @@
     android:background="#1E1E1E">
 
     <TextView
-        android:id="@+id/txtChildId"
+        android:id="@+id/txtChildName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>
-
 </LinearLayout>

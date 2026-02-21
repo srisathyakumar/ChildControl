@@ -3,6 +3,7 @@ package com.child.app.child
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import java.util.Calendar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -21,27 +22,50 @@ class ChildUsageUploader(
             context.getSystemService(Context.USAGE_STATS_SERVICE)
                     as UsageStatsManager
 
-        val endTime = System.currentTimeMillis()
-        val startTime = endTime - (24 * 60 * 60 * 1000)
+        // ✅ Today 12:00 AM start time
+        val calendar = Calendar.getInstance()
 
-        val stats: List<UsageStats> =
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        val startTime = calendar.timeInMillis
+        val endTime = System.currentTimeMillis()
+
+        val stats =
             usageManager.queryUsageStats(
                 UsageStatsManager.INTERVAL_DAILY,
                 startTime,
                 endTime
             )
 
+        val usageMap = mutableMapOf<String, Long>()
+
         for (usage in stats) {
 
+            val pkg = usage.packageName
+            val time = usage.totalTimeInForeground
+
+            if (time > 0) {
+                val current = usageMap[pkg] ?: 0L
+                usageMap[pkg] = current + time
+            }
+        }
+
+        for ((pkg, timeUsed) in usageMap) {
+
             val data = hashMapOf(
-                "childId" to uid,
-                "packageName" to usage.packageName,
-                "timeUsed" to usage.totalTimeInForeground,
-                "date" to System.currentTimeMillis()
+                "appPackage" to pkg,
+                "timeUsed" to timeUsed,
+                "lastUpdated" to System.currentTimeMillis()
             )
 
             firestore.collection("usage")
-                .add(data)
+                .document(uid)
+                .collection("apps")
+                .document(pkg)
+                .set(data)
         }
     }
 }

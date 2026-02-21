@@ -1,5 +1,6 @@
 package com.child.app.parent
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.child.app.R
 
 class PairedChildrenAdapter(
-    private val list: List<Pair<String, String>>,
-    private val onClick: (String) -> Unit
+    private val list: List<Pair<String, String>> // childId , childName
 ) : RecyclerView.Adapter<PairedChildrenAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         val txtChildName: TextView =
-            itemView.findViewById(R.id.txtChildId)
+            itemView.findViewById(R.id.txtChildName)
     }
 
     override fun onCreateViewHolder(
@@ -38,10 +38,8 @@ class PairedChildrenAdapter(
         val childId = list[position].first
         val childName = list[position].second
 
-        // ✅ Show NAME instead of UID
         holder.txtChildName.text = childName
 
-        // ✅ Click → send childId to activity
         holder.itemView.setOnClickListener {
 
             val context = holder.itemView.context
@@ -51,11 +49,11 @@ class PairedChildrenAdapter(
                 ChildAppsActivity::class.java
             )
 
-            intent.putExtra("childUid", childUid)
+            // ✅ PASS CHILD ID
+            intent.putExtra("childId", childId)
 
             context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount(): Int {
