@@ -27,12 +27,8 @@ android {
     }
 
     buildFeatures {
-
-        // ✅ Disable DataBinding (you are not using it)
-        dataBinding = false
-
-        // If using ViewBinding enable this instead
         viewBinding = true
+        dataBinding = false
     }
 
     compileOptions {
@@ -52,8 +48,10 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

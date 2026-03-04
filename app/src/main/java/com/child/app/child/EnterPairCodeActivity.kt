@@ -136,6 +136,15 @@ class EnterPairCodeActivity : AppCompatActivity() {
             .add(data)
             .addOnSuccessListener {
 
+                // 🔥 SAVE ROLE + IDS LOCALLY
+                val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+
+                prefs.edit()
+                    .putString("role", "child")
+                    .putString("childUid", childId)
+                    .putString("parentUid", parentId)
+                    .apply()
+
                 firestore.collection("pairingCodes")
                     .document(code)
                     .delete()

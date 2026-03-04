@@ -46,11 +46,10 @@ class PairedChildrenAdapter(
 
             val intent = Intent(
                 context,
-                ChildAppsActivity::class.java
+                ParentUsageActivity::class.java
             )
 
-            // ✅ PASS CHILD ID
-            intent.putExtra("childId", childId)
+            intent.putExtra("childUid", childId)
 
             context.startActivity(intent)
         }
