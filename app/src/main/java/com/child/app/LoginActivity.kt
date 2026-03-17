@@ -2,18 +2,22 @@ package com.child.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnLogin: Button
@@ -25,10 +29,9 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        // Auto login if already signed in
         if (auth.currentUser != null) {
-            startActivity(Intent(this, PostLoginRedirectActivity::class.java))
-            finish()
+            goToRedirect()
+            return
         }
 
         etEmail = findViewById(R.id.etEmail)
@@ -46,51 +49,43 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
-
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
 
-        if (email.isEmpty()) {
-            etEmail.error = "Enter email"
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.error = "Valid email required"
             return
         }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.error = "Invalid email"
-            return
-        }
-
         if (password.isEmpty()) {
-            etPassword.error = "Enter password"
+            etPassword.error = "Password required"
             return
         }
+
+        btnLogin.isEnabled = false
 
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-
+            .addOnCompleteListener(this) { task ->
+                btnLogin.isEnabled = true
                 if (task.isSuccessful) {
-
-                    Toast.makeText(
-                        this,
-                        "Login Successful",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    startActivity(
-                        Intent(
-                            this,
-                            PostLoginRedirectActivity::class.java
-                        )
-                    )
-                    finish()
-
+                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                    goToRedirect()
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Login Failed: ${task.exception?.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val exception = task.exception
+                    val message = when (exception) {
+                        is FirebaseAuthInvalidUserException -> "No account found with this email."
+                        is FirebaseAuthInvalidCredentialsException -> "Incorrect password."
+                        else -> "Login Failed: ${exception?.localizedMessage ?: "Internal Error. Check Firebase Console (Auth enabled?)"}"
+                    }
+                    Log.e("LoginActivity", "Login Error", exception)
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    private fun goToRedirect() {
+        val intent = Intent(this, PostLoginRedirectActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

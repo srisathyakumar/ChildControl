@@ -2,115 +2,122 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
+        android:name=".ChildControlApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="ChildControl"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.ChildControl">
 
-        <!-- 🔹 LAUNCHER ACTIVITY -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
 
-        <activity
-            android:name=".child.EnterPairCodeActivity"
-            android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false"/>
+        <activity android:name=".RegisterActivity" android:exported="false"/>
+        <activity android:name=".PostLoginRedirectActivity" android:exported="false"/>
+        <activity android:name=".ProfileActivity" android:exported="false"/>
+        <activity android:name=".HelpActivity" android:exported="false"/>
+        <activity android:name=".InfoActivity" android:exported="false"/>
 
-        <activity
-            android:name=".parent.GeneratePairCodeActivity"
-            android:exported="false" />
+        <activity android:name=".child.ChildDashboardActivity" android:exported="false"/>
+        <activity android:name=".child.EnterPairCodeActivity" android:exported="false"/>
+        <activity android:name=".child.UsageStatsActivity" android:exported="false"/>
+        <activity android:name=".child.UsagePermissionActivity" android:exported="false"/>
+        <activity android:name=".child.PhoneLockedActivity" android:exported="false"/>
+        <activity android:name=".child.BlockedAppActivity" android:exported="false"/>
 
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
+        <activity android:name=".parent.ParentDashboardActivity" android:exported="false"/>
+        <activity android:name=".parent.GeneratePairCodeActivity" android:exported="false"/>
+        <activity android:name=".parent.PairedChildrenActivity" android:exported="false"/>
+        <activity android:name=".parent.ChildAppsActivity" android:exported="false"/>
+        <activity android:name=".parent.SetScreenLimitActivity" android:exported="false"/>
+        <activity android:name=".parent.ParentUsageActivity" android:exported="false"/>
+        <activity android:name=".parent.ChildControlActivity" android:exported="false"/>
+        <activity android:name=".parent.SetGeoFenceActivity" android:exported="false"/>
+        <activity android:name=".parent.ParentMapActivity" android:exported="false"/>
+        <activity android:name=".parent.AlertActivity" android:exported="false"/>
+        <activity android:name=".parent.SettingsActivity" android:exported="false"/>
 
-        <!-- 🔹 LOGIN -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-
-        <!-- 🔹 ROLE REDIRECT -->
-        <activity
-            android:name=".PostLoginRedirectActivity"
-            android:exported="false" />
-
-        <!-- 🔹 PARENT DASHBOARD -->
-        <activity
-            android:name=".parent.ParentDashboardActivity"
-            android:exported="false" />
-
-        <!-- 🔹 CHILD DASHBOARD -->
-        <activity
-            android:name=".child.ChildDashboardActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".parent.PairedChildrenActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".parent.ChildAppsActivity"
-            android:exported="false" />
-
-        <activity android:name=".child.UsageStatsActivity"/>
-        <activity android:name=".child.UsagePermissionActivity"/>
-
-        <activity
-            android:name=".parent.SetScreenLimitActivity"
-            android:exported="false"/>
-
-        <activity android:name=".parent.ParentUsageActivity"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_REAL_MAPS_API_KEY"/>
 
         <service
             android:name=".child.AppBlockerService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
-
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_config"/>
         </service>
 
+        <service
+            android:name=".child.LocationService"
+            android:exported="false"
+            android:foregroundServiceType="location"/>
+
+        <service
+            android:name=".child.NotificationMonitorService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".child.AppInstallReceiver"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REMOVED"/>
                 <data android:scheme="package"/>
             </intent-filter>
-
         </receiver>
 
-        <activity android:name=".parent.SetGeoFenceActivity"/>
-        <activity android:name=".parent.ParentMapActivity"/>
-        <activity android:name=".parent.AlertActivity"/>
+        <receiver
+            android:name=".child.DeviceAdminReceiver"
+            android:permission="android.app.device_admin"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
 
-        <service android:name=".child.LocationService"/>
+        <receiver android:name=".child.UnlockReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
 
     </application>
-
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
 </manifest>

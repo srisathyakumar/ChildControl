@@ -1,0 +1,35 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/background_light">
+
+    <TextView
+        android:text="Whose phone is this?"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/parentBtn"
+        android:text="Parent Device"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_primary"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"/>
+
+    <Button
+        android:id="@+id/childBtn"
+        android:text="Child Device"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_primary"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"/>
+
+</LinearLayout>

@@ -2,7 +2,10 @@ package com.child.app.child
 
 import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.math.*
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class GeoFenceChecker(private val context: Context) {
 

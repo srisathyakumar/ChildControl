@@ -1,16 +1,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="16dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="#1E1E1E">
+    android:background="#1E1E1E"
+    android:layout_margin="6dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/txtChildName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"/>
+        android:textSize="18sp"
+        android:layout_marginStart="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

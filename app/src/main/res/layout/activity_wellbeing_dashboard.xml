@@ -1,0 +1,69 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background_light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Title -->
+
+        <TextView
+            android:text="Digital Wellbeing"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"/>
+
+        <!-- Screen Time -->
+
+        <TextView
+            android:id="@+id/txtScreenTime"
+            android:text="0h 0m"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Donut Chart -->
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Weekly Graph -->
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/weeklyChart"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Unlock + Notification -->
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/unlockCount"
+                android:text="Unlocks: 0"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/notificationCount"
+                android:text="Notifications: 0"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default dimensions for mobile -->
+    <dimen name="header_height">250dp</dimen>
+    <dimen name="auth_title_size">36sp</dimen>
+    <dimen name="auth_padding">24dp</dimen>
+    <dimen name="content_margin">24dp</dimen>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="logo_size">100dp</dimen>
+    <dimen name="welcome_title_size">48sp</dimen>
+    <dimen name="card_corner_radius">28dp</dimen>
+    <dimen name="dashboard_padding">16dp</dimen>
+</resources>

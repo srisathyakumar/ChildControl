@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#121212"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <TextView
+        android:id="@+id/usageText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Loading usage..."
+        android:textColor="@color/text_primary"
+        android:textSize="16sp"
+        android:padding="16dp"/>
 
-        <TextView
-            android:id="@+id/usageText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="16sp"
-            android:padding="16dp"/>
+    <Button
+        android:id="@+id/geoFenceBtn"
+        android:text="SET GEO FENCE"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/geoFenceBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SET GEO FENCE"/>
+    <Button
+        android:id="@+id/mapBtn"
+        android:text="VIEW LIVE LOCATION"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/mapBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="VIEW LIVE LOCATION"/>
+    <Button
+        android:id="@+id/alertBtn"
+        android:text="VIEW ALERTS"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/alertBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="VIEW ALERTS"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

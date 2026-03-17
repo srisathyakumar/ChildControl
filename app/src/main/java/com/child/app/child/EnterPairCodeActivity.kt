@@ -41,12 +41,13 @@ class EnterPairCodeActivity : AppCompatActivity() {
             etChildName.error = "Enter child name"
             return
         }
-        val childId = auth.currentUser?.uid ?: return
 
         if (code.isEmpty()) {
             etCode.error = "Enter pairing code"
             return
         }
+
+        val childId = auth.currentUser?.uid ?: return
 
         firestore.collection("pairingCodes")
             .document(code)
@@ -68,15 +69,11 @@ class EnterPairCodeActivity : AppCompatActivity() {
                     doc.getString("parentId")
                         ?: return@addOnSuccessListener
 
-                checkDuplicatePairing(
-                    parentId,
-                    childId,
-                    code
-                )
+                checkDuplicatePairing(parentId, childId, code)
             }
     }
 
-    // ✅ STEP 1 — Check duplicate
+    // 🔍 Check if pairing already exists
     private fun checkDuplicatePairing(
         parentId: String,
         childId: String,
@@ -100,44 +97,37 @@ class EnterPairCodeActivity : AppCompatActivity() {
 
                 } else {
 
-                    createPairing(
-                        parentId = parentId,
-                        childId = childId,
-                        code = code
-                    )
+                    createPairing(parentId, childId, code, pairingId)
                 }
             }
     }
 
-    // ✅ STEP 2 — Create pairing safely
+    // 🔗 Create pairing
     private fun createPairing(
         parentId: String,
         childId: String,
-        code: String
+        code: String,
+        pairingId: String
     ) {
 
         val childName =
             etChildName.text.toString().trim()
 
-        if (childName.isEmpty()) {
-            etChildName.error = "Enter child name"
-            return
-        }
-
         val data = hashMapOf(
             "parentId" to parentId,
             "childId" to childId,
-            "childName" to childName,   // ✅ NEW
+            "childName" to childName,
             "status" to "active",
             "createdAt" to Date()
         )
 
         firestore.collection("pairings")
-            .add(data)
+            .document(pairingId)
+            .set(data)
             .addOnSuccessListener {
 
-                // 🔥 SAVE ROLE + IDS LOCALLY
-                val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                val prefs =
+                    getSharedPreferences("app_prefs", MODE_PRIVATE)
 
                 prefs.edit()
                     .putString("role", "child")

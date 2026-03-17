@@ -1,39 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:text="Enter Pair Code"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="Connect to Parent"
+        android:textSize="26sp"
+        android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/etPairCode"
-        android:hint="6-digit code"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="Enter the pairing code from the parent's device"
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/etChildName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Child Name"
-        android:inputType="textPersonName"/>
+        android:hint="Child Name"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/etPairCode"
+        android:hint="Pair Code"
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/btnPairNow"
         android:text="Pair Device"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
