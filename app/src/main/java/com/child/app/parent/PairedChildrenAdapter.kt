@@ -46,7 +46,7 @@ class PairedChildrenAdapter(
 
             val intent = Intent(
                 context,
-                ParentUsageActivity::class.java
+                ChildControlActivity::class.java
             )
 
             intent.putExtra("childUid", childId)

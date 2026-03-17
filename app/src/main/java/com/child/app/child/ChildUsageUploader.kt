@@ -45,6 +45,7 @@ class ChildUsageUploader(
 
         val usageMap = mutableMapOf<String, Long>()
         val pm = context.packageManager
+        var totalTodayTime = 0L
 
         for (usage in stats) {
 
@@ -89,13 +90,17 @@ class ChildUsageUploader(
                 if (launchIntent == null) continue
 
                 usageMap[pkg] = time
+                totalTodayTime += time
 
             } catch (e: Exception) {
                 continue
             }
         }
 
-        // 🔥 Upload clean data only
+        // Upload total time
+        firestore.collection("usage").document(childUid)
+            .set(mapOf("totalTime" to totalTodayTime))
+
         // 🔥 Upload clean data only
         for ((pkg, timeUsed) in usageMap) {
 

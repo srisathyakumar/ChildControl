@@ -1,39 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:background="#F2F4F7">
 
-    <TextView
-        android:text="Enter Pair Code"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/etPairCode"
-        android:hint="6-digit code"
-        android:inputType="number"
+    <ImageView
+        android:id="@+id/ivIllustration"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="48dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pair"
+        app:layout_constraintBottom_toTopOf="@id/cardPairCode"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etChildName"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardPairCode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Child Name"
-        android:inputType="textPersonName"/>
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnPairNow">
+        <EditText
+            android:id="@+id/etPairCode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="6"
+            android:letterSpacing="0.2"
+            android:fontFamily="@font/lexend_deca"
+            android:textColor="#1A1C1E" />
+    </com.google.android.material.card.MaterialCardView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPairNow"
-        android:text="Pair Device"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="120dp"
+        android:text="Pair"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:fontFamily="@font/lexend_deca"
+        app:backgroundTint="#D7E3F4"
+        android:textColor="#1A1C1E"
+        app:cornerRadius="32dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

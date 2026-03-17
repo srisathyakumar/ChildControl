@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">ChildControl</string>
+    <string name="app_name">Kidly</string>
+    <string name="today">Today</string>
+    <string name="this_week">This week</string>
+    <string name="this_month">This month</string>
+    <string name="usage_format_long">%1$d %2$s, %3$d %4$s</string>
+    <string name="usage_format_short">%1$dh %2$dm</string>
+    <string name="hour_label">hr</string>
+    <string name="hours_label">hrs</string>
+    <string name="min_label">min</string>
+    <string name="mins_label">mins</string>
+    <string name="comparison_format">%1$d%% %2$s usage than %3$s</string>
 </resources>

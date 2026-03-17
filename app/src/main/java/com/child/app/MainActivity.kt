@@ -1,11 +1,15 @@
 package com.child.app
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Base64
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,39 +18,48 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Optional: If you have splash layout use setContentView()
-        setContentView(R.layout.activity_main)
+        printSigningHash()
 
         auth = FirebaseAuth.getInstance()
 
-        // Small delay (Splash effect optional)
-        Handler(Looper.getMainLooper()).postDelayed({
+        // Check if user is already logged in
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, PostLoginRedirectActivity::class.java))
+            finish()
+            return
+        }
 
-            val user = auth.currentUser
+        // Show Welcome Page if not logged in
+        setContentView(R.layout.activity_main)
 
-            if (user != null) {
+        findViewById<View>(R.id.btnLogin).setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
-                // 🔁 User already logged in
-                startActivity(
-                    Intent(
-                        this,
-                        PostLoginRedirectActivity::class.java
-                    )
-                )
+        findViewById<View>(R.id.btnCreateAccount).setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    }
 
+    private fun printSigningHash() {
+        try {
+            val packageName = packageName
+            val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.signingCertificateHistory
             } else {
-
-                // 🔐 Not logged in
-                startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                )
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
             }
 
-            finish()
-
-        }, 1000) // 1 second delay
+            for (signature in signatures) {
+                val md = MessageDigest.getInstance("SHA-256")
+                md.update(signature.toByteArray())
+                val digest = md.digest()
+                val hexString = digest.joinToString(":") { "%02X".format(it) }
+                Log.d("SIGNING_HASH", "SHA-256: $hexString")
+            }
+        } catch (e: Exception) {
+            Log.e("SIGNING_HASH", "Error getting signing hash", e)
+        }
     }
 }

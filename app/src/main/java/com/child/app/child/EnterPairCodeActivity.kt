@@ -1,6 +1,8 @@
 package com.child.app.child
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -13,18 +15,17 @@ import java.util.*
 class EnterPairCodeActivity : AppCompatActivity() {
 
     private lateinit var etCode: EditText
-    private lateinit var etChildName: EditText
     private lateinit var btnPair: Button
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private val TAG = "EnterPairCode"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_pair_code)
 
         etCode = findViewById(R.id.etPairCode)
-        etChildName = findViewById(R.id.etChildName)
         btnPair = findViewById(R.id.btnPairNow)
 
         btnPair.setOnClickListener {
@@ -33,129 +34,116 @@ class EnterPairCodeActivity : AppCompatActivity() {
     }
 
     private fun verifyPairCode() {
-
         val code = etCode.text.toString().trim()
-        val childName = etChildName.text.toString().trim()
-
-        if (childName.isEmpty()) {
-            etChildName.error = "Enter child name"
-            return
-        }
-        val childId = auth.currentUser?.uid ?: return
 
         if (code.isEmpty()) {
             etCode.error = "Enter pairing code"
             return
         }
 
+        val childId = auth.currentUser?.uid ?: return
+
+        btnPair.isEnabled = false
+
         firestore.collection("pairingCodes")
             .document(code)
             .get()
             .addOnSuccessListener { doc ->
-
                 if (!doc.exists()) {
-
-                    Toast.makeText(
-                        this,
-                        "Invalid Pair Code",
-                        Toast.LENGTH_LONG
-                    ).show()
-
+                    btnPair.isEnabled = true
+                    Toast.makeText(this, "Invalid Pair Code", Toast.LENGTH_LONG).show()
                     return@addOnSuccessListener
                 }
 
-                val parentId =
-                    doc.getString("parentId")
-                        ?: return@addOnSuccessListener
+                val parentId = doc.getString("parentId")
+                if (parentId == null) {
+                    btnPair.isEnabled = true
+                    return@addOnSuccessListener
+                }
 
-                checkDuplicatePairing(
-                    parentId,
-                    childId,
-                    code
-                )
+                checkPairingLimitsAndCreate(parentId, childId, code)
+            }
+            .addOnFailureListener { e ->
+                btnPair.isEnabled = true
+                Log.e(TAG, "Error verifying code", e)
+                Toast.makeText(this, "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
     }
 
-    // ✅ STEP 1 — Check duplicate
-    private fun checkDuplicatePairing(
-        parentId: String,
-        childId: String,
-        code: String
-    ) {
-
-        val pairingId = "${parentId}_${childId}"
-
+    private fun checkPairingLimitsAndCreate(parentId: String, childId: String, code: String) {
         firestore.collection("pairings")
-            .document(pairingId)
+            .whereEqualTo("childId", childId)
             .get()
-            .addOnSuccessListener { doc ->
+            .addOnSuccessListener { querySnapshot ->
+                val existingPairings = querySnapshot.documents
+                
+                val alreadyPairedWithThisParent = existingPairings.any { it.getString("parentId") == parentId }
+                if (alreadyPairedWithThisParent) {
+                    btnPair.isEnabled = true
+                    Toast.makeText(this, "Already paired with this parent", Toast.LENGTH_LONG).show()
+                    return@addOnSuccessListener
+                }
 
-                if (doc.exists()) {
-
-                    Toast.makeText(
-                        this,
-                        "Already Paired",
-                        Toast.LENGTH_LONG
-                    ).show()
-
+                if (existingPairings.size >= 2) {
+                    btnPair.isEnabled = true
+                    Toast.makeText(this, "Child can only be paired with up to 2 parents", Toast.LENGTH_LONG).show()
                 } else {
-
-                    createPairing(
-                        parentId = parentId,
-                        childId = childId,
-                        code = code
-                    )
+                    fetchChildNameAndCreate(parentId, childId, code)
                 }
             }
+            .addOnFailureListener { e ->
+                btnPair.isEnabled = true
+                Log.e(TAG, "Error checking limits", e)
+            }
     }
 
-    // ✅ STEP 2 — Create pairing safely
-    private fun createPairing(
-        parentId: String,
-        childId: String,
-        code: String
-    ) {
+    private fun fetchChildNameAndCreate(parentId: String, childId: String, code: String) {
+        firestore.collection("users").document(childId).get()
+            .addOnSuccessListener { doc ->
+                val childName = doc.getString("name") ?: doc.getString("email")?.split("@")?.get(0) ?: "Child"
+                createPairing(parentId, childId, code, childName)
+            }
+            .addOnFailureListener {
+                createPairing(parentId, childId, code, "Child")
+            }
+    }
 
-        val childName =
-            etChildName.text.toString().trim()
-
-        if (childName.isEmpty()) {
-            etChildName.error = "Enter child name"
-            return
-        }
+    private fun createPairing(parentId: String, childId: String, code: String, childName: String) {
+        val pairingId = "${parentId}_${childId}"
 
         val data = hashMapOf(
             "parentId" to parentId,
             "childId" to childId,
-            "childName" to childName,   // ✅ NEW
+            "childName" to childName,
             "status" to "active",
             "createdAt" to Date()
         )
 
         firestore.collection("pairings")
-            .add(data)
+            .document(pairingId)
+            .set(data)
             .addOnSuccessListener {
-
-                // 🔥 SAVE ROLE + IDS LOCALLY
                 val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-
                 prefs.edit()
                     .putString("role", "child")
                     .putString("childUid", childId)
                     .putString("parentUid", parentId)
                     .apply()
 
-                firestore.collection("pairingCodes")
-                    .document(code)
-                    .delete()
+                firestore.collection("pairingCodes").document(code).delete()
 
-                Toast.makeText(
-                    this,
-                    "Device Paired Successfully",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                Toast.makeText(this, "Device Paired Successfully", Toast.LENGTH_LONG).show()
+                
+                // Redirect to ChildDashboard instead of finishing
+                val intent = Intent(this, ChildDashboardActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
                 finish()
+            }
+            .addOnFailureListener { e ->
+                btnPair.isEnabled = true
+                Log.e(TAG, "Error creating pairing", e)
+                Toast.makeText(this, "Pairing failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             }
     }
 }

@@ -1,13 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FF"
+    tools:context=".child.UsageStatsActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerUsage"
+    <!-- Header Section -->
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#1A1C1E"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:id="@+id/txtAvatarLetter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="S"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/txtHeaderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@id/btnBack"
+            android:fontFamily="@font/lexend_deca"
+            android:text="satya"
+            android:textColor="#1A1C1E"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/btnNotifications"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/btnMenu"
+            android:padding="8dp"
+            android:src="@drawable/notifications_none"
+            app:tint="#1A1C1E" />
+
+        <ImageView
+            android:id="@+id/btnMenu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/more_vert"
+            app:tint="#1A1C1E" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp">
+
+            <!-- Merged Usage Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E1E3E8"
+                android:backgroundTint="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:gravity="center_horizontal">
+
+                    <!-- Usage Selection Pill -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTimeFilter"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Daily"
+                        android:textAllCaps="false"
+                        app:cornerRadius="24dp"
+                        android:textColor="#1A1C1E"
+                        app:strokeColor="#E1E3E8"
+                        android:fontFamily="@font/lexend_deca"
+                        android:textSize="12sp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                    <TextView
+                        android:id="@+id/txtTotalTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="2 hrs, 45 mins"
+                        android:textColor="#1A1C1E"
+                        android:textSize="32sp"
+                        android:fontFamily="@font/lexend_deca" />
+
+                    <TextView
+                        android:id="@+id/txtTimeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Today"
+                        android:textColor="#44474E"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/lexend_deca" />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/usageChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="24dp" />
+
+                    <!-- Date Selector -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="24dp">
+
+                        <ImageView
+                            android:id="@+id/btnPrevDate"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/left_side"
+                            app:tint="#1A1C1E" />
+
+                        <TextView
+                            android:id="@+id/txtCurrentDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="32dp"
+                            android:text="Sat 21 Mar"
+                            android:textColor="#1A1C1E"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/lexend_deca" />
+
+                        <ImageView
+                            android:id="@+id/btnNextDate"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/left_side"
+                            android:rotation="180"
+                            app:tint="#1A1C1E" />
+                    </LinearLayout>
+
+                    <!-- Status Pill -->
+                    <LinearLayout
+                        android:id="@+id/statusPill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/status_pill_green"
+                        android:backgroundTint="#E3F2FD"
+                        android:paddingHorizontal="24dp"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:id="@+id/txtComparison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15% less usage than yesterday"
+                            android:textColor="#1A1C1E"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/lexend_deca" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:text="App Details"
+                android:textColor="#1A1C1E"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/lexend_deca" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerUsage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_usage_app" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
