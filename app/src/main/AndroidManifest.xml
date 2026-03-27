@@ -63,7 +63,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCIJKVGZGFCUFwq8n6BkqUJg4J_4v_B2Vw"/>
+            android:value="Your_location_API"/>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
