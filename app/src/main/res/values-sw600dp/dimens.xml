@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dimensions for 7-inch tablets -->
-    <dimen name="header_height">400dp</dimen>
-    <dimen name="auth_title_size">48sp</dimen>
-    <dimen name="auth_padding">48dp</dimen>
-    <dimen name="content_margin">64dp</dimen>
-    <dimen name="button_height">64dp</dimen>
-    <dimen name="logo_size">96dp</dimen>
+    <!-- Scaled dimensions for 7-inch tablets -->
+    <dimen name="screen_padding">48dp</dimen>
+    <dimen name="element_spacing_small">12dp</dimen>
+    <dimen name="element_spacing_medium">24dp</dimen>
+    <dimen name="element_spacing_large">32dp</dimen>
+    <dimen name="element_spacing_extra_large">48dp</dimen>
+    <dimen name="section_margin_top">80dp</dimen>
+    <dimen name="card_margin_vertical">20dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_size_h1">56sp</dimen>
+    <dimen name="text_size_h2">40sp</dimen>
+    <dimen name="text_size_h3">32sp</dimen>
+    <dimen name="text_size_body">20sp</dimen>
+    <dimen name="text_size_body_small">18sp</dimen>
+    <dimen name="text_size_caption">16sp</dimen>
+    <dimen name="welcome_title_size">64sp</dimen>
+
+    <!-- Component Sizes -->
+    <dimen name="button_height">72dp</dimen>
+    <dimen name="card_corner_radius">24dp</dimen>
+    <dimen name="card_corner_radius_large">40dp</dimen>
+    <dimen name="input_field_height">80dp</dimen>
+    <dimen name="icon_size_small">32dp</dimen>
+    <dimen name="icon_size_medium">56dp</dimen>
+    <dimen name="icon_size_large">80dp</dimen>
+    <dimen name="avatar_size">72dp</dimen>
 </resources>

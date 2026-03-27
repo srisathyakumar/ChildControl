@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/screen_padding"
     android:background="?attr/colorSurface">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Help &amp; Feedback"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_h3"
         android:textStyle="bold"
         android:textColor="?attr/colorOnSurface"/>
 
@@ -18,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="If you have any questions or need assistance, please contact our support team."
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/element_spacing_medium"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/text_size_body"/>
 
 </LinearLayout>

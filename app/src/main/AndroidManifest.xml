@@ -4,13 +4,16 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+        tools:ignore="BackgroundLocationUsage" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"
+        tools:ignore="ForegroundServicePermission" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
@@ -24,6 +27,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true"
+        android:hardwareAccelerated="true"
+        tools:targetApi="33"
         android:theme="@style/Theme.ChildControl">
 
         <activity
@@ -39,15 +44,19 @@
         <activity android:name=".RegisterActivity" android:exported="false"/>
         <activity android:name=".PostLoginRedirectActivity" android:exported="false"/>
         <activity android:name=".ProfileActivity" android:exported="false"/>
+        <activity android:name=".PersonalInfoActivity" android:exported="false"/>
         <activity android:name=".HelpActivity" android:exported="false"/>
         <activity android:name=".InfoActivity" android:exported="false"/>
 
         <activity android:name=".child.ChildDashboardActivity" android:exported="false"/>
         <activity android:name=".child.EnterPairCodeActivity" android:exported="false"/>
         <activity android:name=".child.UsageStatsActivity" android:exported="false"/>
+        <activity android:name=".child.UsageDetailActivity" android:exported="false"/>
         <activity android:name=".child.UsagePermissionActivity" android:exported="false"/>
         <activity android:name=".child.PhoneLockedActivity" android:exported="false"/>
         <activity android:name=".child.BlockedAppActivity" android:exported="false"/>
+        <activity android:name=".child.ChildLocationActivity" android:exported="false"/>
+        <activity android:name=".child.MaliciousAppActivity" android:exported="false"/>
 
         <activity android:name=".parent.ParentDashboardActivity" android:exported="false"/>
         <activity android:name=".parent.GeneratePairCodeActivity" android:exported="false"/>
@@ -63,15 +72,14 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCIJKVGZGFCUFwq8n6BkqUJg4J_4v_B2Vw"/>
+            android:value="your location api  key"/>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
         <service
             android:name=".child.AppBlockerService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            tools:ignore="AccessibilityService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FB">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/avatarContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_white_bg"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="4dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1D1B20">
+                <TextView
+                    android:id="@+id/txtAvatarLetter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="S"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/txtHeaderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
+                android:text="satya"
+                android:textColor="#1D1B20"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnRiskHeader"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_risk"
+                app:tint="#1D1B20" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnLocation"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/location"
+                app:tint="#1D1B20" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="24dp">
+
+            <!-- Screen Time Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUsage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Screen time today"
+                            android:textColor="#49454F"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/txtLastUpdated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Last updated: 17:01"
+                            android:textColor="#938F99"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/txtScreenTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="5h 16m"
+                                android:textColor="#1D1B20"
+                                android:textSize="32sp" />
+                            <TextView
+                                android:id="@+id/txtCategoryUsage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Gaming: 0m | Social: 7m"
+                                android:textColor="#938F99"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/toggleUsageRange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/toggle_button_bg"
+                            android:padding="2dp"
+                            app:checkedButton="@+id/btnDay"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDay"
+                                style="@style/Widget.Material3.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="DAY"
+                                android:textColor="@color/toggle_text_selector"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                app:backgroundTint="@color/toggle_bg_selector"
+                                app:cornerRadius="18dp" />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnWeek"
+                                style="@style/Widget.Material3.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="WEEK"
+                                android:textColor="@color/toggle_text_selector"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                app:backgroundTint="@color/toggle_bg_selector"
+                                app:cornerRadius="18dp" />
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="By hour"
+                            android:textColor="#49454F"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chartByTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="By app"
+                        android:textColor="#49454F"
+                        android:textSize="12sp" />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chartByApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="8dp" />
+
+                    <LinearLayout
+                        android:id="@+id/appIconsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

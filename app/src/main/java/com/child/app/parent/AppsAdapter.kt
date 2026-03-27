@@ -11,6 +11,7 @@ import com.child.app.R
 
 class AppsAdapter(
     private val list: List<Pair<String, Long>>,
+    private val totalTime: Long,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<AppsAdapter.ViewHolder>() {
 
@@ -18,13 +19,13 @@ class AppsAdapter(
         RecyclerView.ViewHolder(itemView) {
 
         val imgIcon: ImageView =
-            itemView.findViewById(R.id.imgAppIcon)
+            itemView.findViewById(R.id.appIcon)
 
         val txtName: TextView =
-            itemView.findViewById(R.id.txtAppName)
+            itemView.findViewById(R.id.appName)
 
         val txtTime: TextView =
-            itemView.findViewById(R.id.txtTime)
+            itemView.findViewById(R.id.appUsage)
     }
 
     override fun onCreateViewHolder(
@@ -33,7 +34,7 @@ class AppsAdapter(
     ): ViewHolder {
 
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_app, parent, false)
+            .inflate(R.layout.item_app_usage, parent, false)
 
         return ViewHolder(view)
     }
@@ -48,30 +49,28 @@ class AppsAdapter(
         val pm = context.packageManager
 
         try {
-
-            val appInfo =
-                pm.getApplicationInfo(packageName, 0)
-
-            val appName =
-                pm.getApplicationLabel(appInfo).toString()
-
-            val appIcon =
-                pm.getApplicationIcon(appInfo)
+            val appInfo = pm.getApplicationInfo(packageName, 0)
+            val appName = pm.getApplicationLabel(appInfo).toString()
+            val appIcon = pm.getApplicationIcon(appInfo)
 
             holder.txtName.text = appName
             holder.imgIcon.setImageDrawable(appIcon)
 
         } catch (e: Exception) {
-
-            // Fallback icon
             holder.txtName.text = packageName
-            holder.imgIcon.setImageResource(
-                android.R.drawable.sym_def_app_icon
-            )
+            holder.imgIcon.setImageResource(android.R.drawable.sym_def_app_icon)
         }
 
-        holder.txtTime.text =
-            "Used: ${timeUsed / 60} min"
+        // Format app usage time
+        val totalMinutes = timeUsed / 60000
+        val hours = totalMinutes / 60
+        val minutes = totalMinutes % 60
+        
+        holder.txtTime.text = if (hours > 0) {
+            "${hours}h ${minutes}m"
+        } else {
+            "${minutes}m"
+        }
 
         holder.itemView.setOnClickListener {
             onClick(packageName)

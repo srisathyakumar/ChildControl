@@ -10,4 +10,11 @@
     <string name="min_label">min</string>
     <string name="mins_label">mins</string>
     <string name="comparison_format">%1$d%% %2$s usage than %3$s</string>
+
+    <string name="screen_time_format">Screen time (%s)</string>
+    <string name="last_updated_format">Last updated: %s</string>
+    <string name="comparison_placeholder">Compared to yesterday</string>
+    <string name="scanning_format">Scanning: %s</string>
+    <string name="items_scanned_format">%d items scanned</string>
+    <string name="smart_shield_scan">Smart Shield is scanning for threats...</string>
 </resources>

@@ -1,17 +1,16 @@
 package com.child.app.parent
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.child.app.R
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.FusedLocationProviderClient
-import android.location.Location
-import com.google.android.gms.location.Priority
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SetGeoFenceActivity : AppCompatActivity() {
 
@@ -35,25 +34,43 @@ class SetGeoFenceActivity : AppCompatActivity() {
         val getLocationBtn = findViewById<Button>(R.id.getLocationBtn)
 
         getLocationBtn.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    1001
+                )
+                return@setOnClickListener
+            }
 
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
-
                     if (location != null) {
-
                         latInput.setText(location.latitude.toString())
                         lngInput.setText(location.longitude.toString())
-
                         Toast.makeText(
                             this,
                             "Location filled automatically",
                             Toast.LENGTH_SHORT
                         ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Could not get location. Make sure GPS is on.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }
-        saveBtn.setOnClickListener {
 
+        saveBtn.setOnClickListener {
             val lat = latInput.text.toString().toDoubleOrNull()
             val lng = lngInput.text.toString().toDoubleOrNull()
             val radius = radiusInput.text.toString().toIntOrNull()
@@ -85,15 +102,24 @@ class SetGeoFenceActivity : AppCompatActivity() {
                 .document(childUid)
                 .set(data)
                 .addOnSuccessListener {
-
                     Toast.makeText(
                         this,
                         "Geo Fence Saved",
                         Toast.LENGTH_LONG
                     ).show()
-
                     finish()
                 }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1001 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            findViewById<Button>(R.id.getLocationBtn).performClick()
         }
     }
 }

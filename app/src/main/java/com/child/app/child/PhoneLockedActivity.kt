@@ -1,18 +1,21 @@
 package com.child.app.child
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.child.app.R
 
 class PhoneLockedActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Use a simple built-in layout since activity_phone_locked.xml was removed
+        setContentView(android.R.layout.simple_list_item_1)
 
-        setContentView(R.layout.activity_phone_locked)
-    }
-
-    override fun onBackPressed() {
-        // disable back
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // disable back
+            }
+        })
     }
 }

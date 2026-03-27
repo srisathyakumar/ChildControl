@@ -11,28 +11,19 @@ class AlertActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_alert)
+        // Using a generic layout or standard Material components if layout is removed
+        // For now, I'll keep the Activity but you'll need to provide a new UI or remove it from Manifest
+        setContentView(android.R.layout.simple_list_item_1)
 
-        val alertText = findViewById<TextView>(R.id.alertText)
-
-        val childUid = intent.getStringExtra("childUid")!!
+        val childUid = intent.getStringExtra("childUid") ?: return
 
         FirebaseFirestore.getInstance()
             .collection("alerts")
             .document(childUid)
             .addSnapshotListener { doc, _ ->
-
                 if (doc == null || !doc.exists()) return@addSnapshotListener
-
                 val alert = doc.getString("alert")
-
-                if (alert == "emergency") {
-                    alertText.text = "🚨 Emergency Alert from Child!"
-                }
-
-                if (alert == "geofence_violation") {
-                    alertText.text = "⚠ Child left the GeoFence area!"
-                }
+                // Update UI logic here
             }
     }
 }

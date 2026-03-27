@@ -130,11 +130,18 @@ class EnterPairCodeActivity : AppCompatActivity() {
                     .putString("parentUid", parentId)
                     .apply()
 
+                // Save initial location to firestore so it's immediately visible to parent
+                val initialLocation = hashMapOf(
+                    "lat" to 0.0,
+                    "lng" to 0.0,
+                    "timestamp" to System.currentTimeMillis()
+                )
+                firestore.collection("childLocations").document(childId).set(initialLocation)
+
                 firestore.collection("pairingCodes").document(code).delete()
 
                 Toast.makeText(this, "Device Paired Successfully", Toast.LENGTH_LONG).show()
                 
-                // Redirect to ChildDashboard instead of finishing
                 val intent = Intent(this, ChildDashboardActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)

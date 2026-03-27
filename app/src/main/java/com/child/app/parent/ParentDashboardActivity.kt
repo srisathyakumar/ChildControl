@@ -6,8 +6,12 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.child.app.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,14 +30,29 @@ class ParentDashboardActivity : AppCompatActivity() {
     private var selectedChildUid: String? = null
     private var miniMap: GoogleMap? = null
     private var locationListener: ListenerRegistration? = null
+    private var usageListener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parent_dashboard)
 
         val user = FirebaseAuth.getInstance().currentUser ?: run {
             goToLogin()
             return
+        }
+
+        findViewById<View>(R.id.main).let { mainView ->
+            ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    left = systemBars.left,
+                    top = systemBars.top,
+                    right = systemBars.right,
+                    bottom = systemBars.bottom
+                )
+                insets
+            }
         }
 
         setupProfileHeader(user.uid)
@@ -68,7 +87,7 @@ class ParentDashboardActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.txtChildHeaderName)?.text = childName
                     findViewById<TextView>(R.id.txtAvatarLetter)?.text = childName.take(1).uppercase()
                     selectedChildUid?.let { uid ->
-                        loadChildData(uid)
+                        listenToChildUsage(uid)
                         listenToChildLocation(uid)
                     }
                 }
@@ -92,15 +111,26 @@ class ParentDashboardActivity : AppCompatActivity() {
                     map.addMarker(MarkerOptions().position(latLng))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                 }
+                
+                findViewById<TextView>(R.id.txtLocationStatus)?.text = "Live Location Updated"
             }
     }
 
-    private fun loadChildData(childId: String) {
-        // Fetch usage, location etc. for specific child
-        FirebaseFirestore.getInstance().collection("usage").document(childId).get()
-            .addOnSuccessListener { doc ->
-                val totalTime = doc.getLong("totalTime") ?: 0L
-                findViewById<TextView>(R.id.screenTimeText)?.text = "${totalTime / 60000} min"
+    private fun listenToChildUsage(childId: String) {
+        usageListener?.remove()
+        usageListener = FirebaseFirestore.getInstance().collection("usage").document(childId)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null || snapshot == null || !snapshot.exists()) {
+                    findViewById<TextView>(R.id.screenTimeText)?.text = "0 min"
+                    return@addSnapshotListener
+                }
+                
+                val totalTimeMs = snapshot.getLong("totalTime") ?: 0L
+                val minutes = totalTimeMs / 60000
+                val h = minutes / 60
+                val m = minutes % 60
+                
+                findViewById<TextView>(R.id.screenTimeText)?.text = if (h > 0) "${h}h ${m}m" else "${m} min"
             }
     }
 
@@ -152,8 +182,6 @@ class ParentDashboardActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance().collection("users").document(uid).get()
             .addOnSuccessListener { doc ->
                 val parentName = doc.getString("name") ?: doc.getString("email")?.split("@")?.get(0) ?: "Parent"
-                // No specific name field in activity_parent_dashboard for Parent yet, 
-                // but we can update the avatar container if needed.
             }
 
         val avatar = findViewById<View>(R.id.avatarContainer)
@@ -223,5 +251,6 @@ class ParentDashboardActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         locationListener?.remove()
+        usageListener?.remove()
     }
 }

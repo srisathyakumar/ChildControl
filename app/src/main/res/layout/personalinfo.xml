@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ghost_gray">
+
+    <!-- Top Bar -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="Back"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@drawable/left_side"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_primary" />
+
+    <ImageView
+        android:id="@+id/btnSearch"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="Search"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@android:drawable/ic_menu_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_primary" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Personal info"
+        android:textColor="@color/text_primary"
+        android:textSize="28sp"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Profile Picture -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Camera"
+                            android:src="@android:drawable/ic_menu_camera"
+                            app:tint="@color/text_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="1"
+                            android:text="Profile picture"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardBackgroundColor="#AF52BF"
+                            app:cardCornerRadius="28dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+                            <TextView
+                                android:id="@+id/txtAvatarPreview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="S"
+                                android:textColor="@color/white"
+                                android:textSize="24sp"
+                                android:fontFamily="sans-serif-medium" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Name -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Name" android:src="@android:drawable/ic_menu_myplaces" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Name" />
+                            <TextView android:id="@+id/txtName" style="@style/PersonalInfoValueStyle" android:text="Satya Kumar" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Gender -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Gender" android:src="@android:drawable/ic_menu_my_calendar" app:tint="@color/text_primary" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Gender" />
+                            <TextView android:id="@+id/txtGender" style="@style/PersonalInfoValueStyle" android:text="Male" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Email -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Email" android:src="@android:drawable/ic_dialog_email" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Email" />
+                            <TextView android:id="@+id/txtEmail" style="@style/PersonalInfoValueStyle" android:text="srisathyakumar5@gmail.com" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Phone -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Phone" android:src="@android:drawable/stat_sys_phone_call" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Phone" />
+                            <TextView android:id="@+id/txtPhone" style="@style/PersonalInfoValueStyle" android:text="080740 89511\n079959 49484\n086881 29328\n+4 more" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Birthday -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Birthday" android:src="@android:drawable/ic_menu_today" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Birthday" />
+                            <TextView android:id="@+id/txtBirthday" style="@style/PersonalInfoValueStyle" android:text="16 July 2004" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Language -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Language" android:src="@android:drawable/ic_menu_mapmode" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Language" />
+                            <TextView android:id="@+id/txtLanguage" style="@style/PersonalInfoValueStyle" android:text="English (United Kingdom)" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Home Address -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Home" android:src="@drawable/location" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Home address" />
+                            <TextView android:id="@+id/txtHomeAddress" style="@style/PersonalInfoValueStyle" android:text="Not set" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Work Address -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Work" android:src="@drawable/logo" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Work address" />
+                            <TextView android:id="@+id/txtWorkAddress" style="@style/PersonalInfoValueStyle" android:text="Not set" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Other Addresses -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Other addresses" android:src="@android:drawable/ic_menu_directions" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="Other addresses" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginStart="64dp" />
+
+                    <!-- Password -->
+                    <LinearLayout style="@style/PersonalInfoItemStyle">
+                        <ImageView style="@style/PersonalInfoIconStyle" android:contentDescription="Password" android:src="@drawable/lock___24px" />
+                        <LinearLayout style="@style/PersonalInfoTextStyle">
+                            <TextView style="@style/PersonalInfoLabelStyle" android:text="password" />
+                            <TextView android:id="@+id/txtPasswordStatus" style="@style/PersonalInfoValueStyle" android:text="Last changed 14 Nov 2024" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Footer Links -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView style="@style/PersonalInfoFooterStyle" android:text="Privacy" />
+                <TextView style="@style/PersonalInfoFooterStyle" android:text="Terms" android:layout_marginStart="24dp" />
+                <TextView style="@style/PersonalInfoFooterStyle" android:text="Help" android:layout_marginStart="24dp" />
+                <TextView style="@style/PersonalInfoFooterStyle" android:text="About" android:layout_marginStart="24dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

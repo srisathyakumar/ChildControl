@@ -29,7 +29,7 @@ class ChildAppsActivity : AppCompatActivity() {
 
         // ✅ RECEIVE CORRECT KEY
         childId =
-            intent.getStringExtra("childId") ?: ""
+            intent.getStringExtra("childUid") ?: ""
 
         // ✅ Safety check
         if (childId.isEmpty()) {
@@ -49,8 +49,7 @@ class ChildAppsActivity : AppCompatActivity() {
             LinearLayoutManager(this)
 
         adapter =
-            AppsAdapter(appsList) { packageName ->
-
+            AppsAdapter(appsList, 1L) { packageName ->
                 openSetLimit(packageName)
             }
 
@@ -69,22 +68,26 @@ class ChildAppsActivity : AppCompatActivity() {
             .addOnSuccessListener { result ->
 
                 appsList.clear()
+                var totalTime = 0L
 
                 for (doc in result) {
-
-                    val pkg =
-                        doc.getString("appPackage") ?: continue
-
-                    val time =
-                        doc.getLong("timeUsed") ?: 0
+                    val pkg = doc.id
+                    val time = doc.getLong("time") ?: 0L
 
                     // ✅ FILTER SYSTEM APPS
                     if (isSystemApp(pkg)) continue
 
                     appsList.add(Pair(pkg, time))
+                    totalTime += time
                 }
 
-                adapter.notifyDataSetChanged()
+                appsList.sortByDescending { it.second }
+                
+                // Re-initialize adapter with correct totalTime
+                adapter = AppsAdapter(appsList, totalTime) { packageName ->
+                    openSetLimit(packageName)
+                }
+                recycler.adapter = adapter
 
                 if (appsList.isEmpty()) {
                     Toast.makeText(
@@ -106,7 +109,8 @@ class ChildAppsActivity : AppCompatActivity() {
                 packageName.contains("packageinstaller") ||
                 packageName.startsWith("com.android.system") ||
                 packageName.startsWith("android") ||
-                packageName == "com.child.app" // hide own app
+                packageName == "com.child.app" || // hide own app
+                packageName == "com.guardian.safety.connect"
     }
 
     // 🔒 Open limit screen
@@ -119,7 +123,7 @@ class ChildAppsActivity : AppCompatActivity() {
             SetScreenLimitActivity::class.java
         )
 
-        intent.putExtra("childId", childId)
+        intent.putExtra("childUid", childId)
         intent.putExtra("packageName", packageName)
 
         startActivity(intent)

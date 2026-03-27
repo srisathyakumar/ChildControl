@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default dimensions for mobile -->
-    <dimen name="header_height">250dp</dimen>
-    <dimen name="auth_title_size">36sp</dimen>
-    <dimen name="auth_padding">24dp</dimen>
-    <dimen name="content_margin">24dp</dimen>
+    <!-- Screen Paddings and Margins -->
+    <dimen name="screen_padding">24dp</dimen>
+    <dimen name="element_spacing_small">8dp</dimen>
+    <dimen name="element_spacing_medium">16dp</dimen>
+    <dimen name="element_spacing_large">24dp</dimen>
+    <dimen name="element_spacing_extra_large">32dp</dimen>
+    <dimen name="section_margin_top">48dp</dimen>
+    <dimen name="card_margin_vertical">12dp</dimen>
+
+    <!-- Header & Content Gaps -->
+    <dimen name="system_bar_gap">48dp</dimen>
+    <dimen name="header_content_gap">24dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_size_h1">40sp</dimen>
+    <dimen name="text_size_h2">32sp</dimen>
+    <dimen name="text_size_h3">24sp</dimen>
+    <dimen name="text_size_body">16sp</dimen>
+    <dimen name="text_size_body_small">14sp</dimen>
+    <dimen name="text_size_caption">12sp</dimen>
+    <dimen name="welcome_title_size">40sp</dimen>
+
+    <!-- Component Sizes -->
     <dimen name="button_height">56dp</dimen>
-    <dimen name="logo_size">100dp</dimen>
-    <dimen name="welcome_title_size">48sp</dimen>
-    <dimen name="card_corner_radius">28dp</dimen>
-    <dimen name="dashboard_padding">16dp</dimen>
+    <dimen name="button_corner_radius">28dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="card_corner_radius_large">28dp</dimen>
+    <dimen name="input_field_height">64dp</dimen>
+    <dimen name="icon_size_small">24dp</dimen>
+    <dimen name="icon_size_medium">40dp</dimen>
+    <dimen name="icon_size_large">64dp</dimen>
+    <dimen name="avatar_size">48dp</dimen>
+    <dimen name="bottom_nav_height">80dp</dimen>
+
+    <!-- Specific Views -->
+    <dimen name="dashboard_header_padding">16dp</dimen>
+    <dimen name="risk_scan_size">280dp</dimen>
+    <dimen name="map_preview_height">240dp</dimen>
 </resources>

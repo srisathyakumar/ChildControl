@@ -20,7 +20,7 @@ class PostLoginRedirectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_login_redirect)
+        // No layout needed for logic-only redirect activity
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()

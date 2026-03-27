@@ -1,14 +1,22 @@
 package com.child.app
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import com.child.app.child.EnterPairCodeActivity
+import com.child.app.parent.GeneratePairCodeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.random.Random
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -23,11 +31,25 @@ class RegisterActivity : AppCompatActivity() {
     private var selectedRole: String? = null // "parent" or "child"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
+
+        findViewById<View>(R.id.main).let { mainView ->
+            ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    left = systemBars.left,
+                    top = systemBars.top,
+                    right = systemBars.right,
+                    bottom = systemBars.bottom
+                )
+                insets
+            }
+        }
 
         etFullName = findViewById(R.id.etFullName)
         etEmail = findViewById(R.id.etEmail)
@@ -106,15 +128,27 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun saveUserToFirestore(uid: String, name: String, email: String, role: String) {
+        // Generate a random dynamic color for the profile background
+        val randomColor = String.format("#%06X", 0xFFFFFF and Color.rgb(
+            Random.nextInt(50, 200),
+            Random.nextInt(50, 200),
+            Random.nextInt(50, 200)
+        ))
+
         val userMap = hashMapOf(
             "name" to name,
             "email" to email,
-            "role" to role
+            "role" to role,
+            "avatarColor" to randomColor
         )
         firestore.collection("users").document(uid).set(userMap)
             .addOnSuccessListener {
                 Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, PostLoginRedirectActivity::class.java)
+                val intent = when (role) {
+                    "parent" -> Intent(this, GeneratePairCodeActivity::class.java)
+                    "child" -> Intent(this, EnterPairCodeActivity::class.java)
+                    else -> Intent(this, LoginActivity::class.java)
+                }
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()

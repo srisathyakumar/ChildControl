@@ -1,17 +1,21 @@
 package com.child.app.child
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.child.app.R
 
 class BlockedAppActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blocked)
-    }
+        
+        // Use a simple built-in layout since activity_blocked.xml was removed
+        setContentView(android.R.layout.simple_list_item_1)
 
-    override fun onBackPressed() {
-        // prevent exit
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // prevent exit
+            }
+        })
     }
 }

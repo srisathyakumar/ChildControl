@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.child.app.R
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.collections.iterator
 
 class LimitManager(private val context: Context) {
 
@@ -15,39 +14,35 @@ class LimitManager(private val context: Context) {
     private val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     fun checkLimits(usageMap: Map<String, Long>) {
-
         val childUid = prefs.getString("childUid", null) ?: return
 
         firestore.collection("limits")
             .document(childUid)
             .get()
             .addOnSuccessListener { snapshot ->
-
                 val dailyLimit = snapshot.getLong("dailyLimitMinutes") ?: 0
-                val appLimits =
-                    snapshot.get("appLimits") as? Map<String, Long> ?: emptyMap()
+                val appLimits = snapshot.get("appLimits") as? Map<*, *> ?: emptyMap<Any, Any>()
 
-                var totalMinutes = 0L
+                var totalMillis = 0L
 
                 for ((pkg, time) in usageMap) {
-
+                    totalMillis += time
                     val minutes = time / 60000
-                    totalMinutes += minutes
 
-                    val appLimit = appLimits[pkg]
-                    if (appLimit != null && minutes >= appLimit) {
-                        showNotification("App limit reached: $pkg")
+                    val appLimit = (appLimits[pkg] as? Number)?.toLong()
+                    if (appLimit != null && appLimit > 0 && minutes >= appLimit) {
+                        showNotification("App limit reached: $pkg", pkg.hashCode())
                     }
                 }
 
-                if (dailyLimit > 0 && totalMinutes >= dailyLimit) {
-                    showNotification("Daily screen time limit reached")
+                val totalMinutes = totalMillis / 60000
+                if (dailyLimit in 1..totalMinutes) {
+                    showNotification("Daily screen time limit reached", 1001)
                 }
             }
     }
 
-    private fun showNotification(message: String) {
-
+    private fun showNotification(message: String, notificationId: Int) {
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE)
                     as NotificationManager
@@ -67,8 +62,9 @@ class LimitManager(private val context: Context) {
                 .setContentText(message)
                 .setSmallIcon(R.drawable.logo)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
                 .build()
 
-        manager.notify(System.currentTimeMillis().toInt(), notification)
+        manager.notify(notificationId, notification)
     }
 }

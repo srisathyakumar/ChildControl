@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7"
+    android:background="?attr/colorSurface"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="@dimen/screen_padding">
 
     <TextView
         android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/section_margin_top"
         android:fontFamily="@font/baloo"
         android:text="Welcome"
-        android:textColor="#1A1C1E"
-        android:textSize="40sp"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="@dimen/welcome_title_size"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/element_spacing_medium"
         android:fontFamily="@font/lexend_deca"
         android:gravity="center"
         android:lineSpacingExtra="4dp"
-        android:paddingHorizontal="24dp"
+        android:paddingHorizontal="@dimen/element_spacing_large"
         android:text="Helping parents stay connected and guide their children safely"
-        android:textColor="#44474E"
-        android:textSize="16sp" />
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="@dimen/text_size_body" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="@dimen/element_spacing_extra_large"
+        android:layout_marginBottom="@dimen/element_spacing_extra_large"
         android:layout_weight="1"
         android:scaleType="fitCenter"
         android:src="@drawable/welcome" />
@@ -43,19 +44,19 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateAccount"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/button_height"
         android:fontFamily="@font/lexend_deca"
         android:text="Get Started"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        app:backgroundTint="#6694CA"
-        app:cornerRadius="28dp" />
+        android:textSize="@dimen/text_size_body"
+        app:backgroundTint="?attr/colorPrimary"
+        app:cornerRadius="@dimen/button_corner_radius" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="@dimen/element_spacing_medium"
+        android:layout_marginBottom="@dimen/element_spacing_large"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -64,8 +65,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend_deca"
             android:text="Already have an account? "
-            android:textColor="#44474E"
-            android:textSize="14sp" />
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/text_size_body_small" />
 
         <TextView
             android:id="@+id/btnLogin"
@@ -73,8 +74,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lexend_deca"
             android:text="Log in"
-            android:textColor="#1A1C1E"
-            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="@dimen/text_size_body_small"
             android:textStyle="bold" />
     </LinearLayout>
 
