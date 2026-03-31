@@ -72,7 +72,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="your location api  key"/>
+            android:value="your location api key"/>
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
